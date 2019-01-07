@@ -43,26 +43,36 @@ public class AsyncTaskUtil {
     }
 
     public void  AsyncTaskBeans(final Context context, final DataCallback dataCallback, final String md5user){
+
          @SuppressLint("StaticFieldLeak")
          AsyncTask<Void, Void, DataBeans> voidVoidDataBeansAsyncTask = new AsyncTask<Void, Void, DataBeans>() {
+             Exception exception;
              @Override
              protected DataBeans doInBackground(Void... voids) {
-
-                 return ListDataBeans(context,md5user);
+                 try {
+                     return ListDataBeans(context,md5user);
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                     this.exception = e;
+                 }
+                 return null;
              }
 
              @Override
              protected void onPostExecute(DataBeans dataBeans) {
-                 dataCallback.onSuccess(dataBeans);
+                 if (dataBeans == null || exception != null){
+                     dataCallback.onFailed(exception);
+                 }else{
+                     dataCallback.onSuccess(dataBeans);
+                 }
              }
 
          };
          voidVoidDataBeansAsyncTask.execute();
     }
 
-    private DataBeans ListDataBeans(Context context,String md5user){
-        try {
-             DataBeans dataBeans =new DataBeans();
+    private DataBeans ListDataBeans(Context context,String md5user) throws IOException {
+             DataBeans dataBeans = new DataBeans();
             if (name!=null&&user!=null&&password!=null){
                 dataBeans = new Gson().fromJson(HttpUtil.registerData(context, name, user, password), DataBeans.class);
                 return dataBeans;
@@ -79,15 +89,13 @@ public class AsyncTaskUtil {
                 dataBeans.setUserBeans(userBeansList);
                 return dataBeans;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
-     interface DataCallback{
+    public interface DataCallback{
         void onSuccess(DataBeans dataBeans);
-        void onFailed();
-    }
+        void onFailed(Exception ex);
+     }
+
+
 }
 
 

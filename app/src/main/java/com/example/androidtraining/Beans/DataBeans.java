@@ -43,4 +43,14 @@ public class DataBeans {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "DataBeans{" +
+                "status='" + status + '\'' +
+                ", chatBeans=" + chatBeans +
+                ", userBeans=" + userBeans +
+                ", loginBeans=" + loginBeans +
+                '}';
+    }
 }

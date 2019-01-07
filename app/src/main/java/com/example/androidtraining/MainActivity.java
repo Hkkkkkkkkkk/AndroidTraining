@@ -3,6 +3,8 @@ package com.example.androidtraining;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import butterknife.Bind;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
