@@ -24,6 +24,7 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "aaa";
     @Bind(R.id.login_account)  EditText login_account;
     @Bind(R.id.login_password) EditText login_password;
     private AsyncTaskUtil loginAsyncTask;
