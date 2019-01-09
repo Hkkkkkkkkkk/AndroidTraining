@@ -62,7 +62,8 @@ public class RegisterActivity extends AppCompatActivity{
         String username = edit_username.getText().toString();
         String password = edit_password.getText().toString();
         String password2 = cfmpassword.getText().toString();
-        if (username.equals("")&&account.equals("")&&password.equals("")) {
+        if (username.equals("")||account.equals("")||password.equals("")) {
+
             Toast.makeText(this,"请确认信息是否填写完整！",Toast.LENGTH_LONG).show();
         }else if (!password.equals(password2)){
             Toast.makeText(this,"请确认两次密码是否输入相同！",Toast.LENGTH_LONG).show();

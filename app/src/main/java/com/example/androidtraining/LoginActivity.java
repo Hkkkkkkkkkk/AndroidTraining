@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     private void Login(){
         final String account  = login_account.getText().toString().trim();
         final String password = login_password.getText().toString().trim();
-        if (account.equals("")&&password.equals("")){
+        if (account.equals("")||password.equals("")){
             Toast.makeText(this,"帐号或密码不能为空哦！",Toast.LENGTH_LONG).show();
         }else {
             loginAsyncTask = new AsyncTaskUtil(account,password);
