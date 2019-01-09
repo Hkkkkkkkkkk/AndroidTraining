@@ -5,15 +5,19 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.androidtraining.Beans.DataBeans;
 import com.example.androidtraining.Beans.LoginBeans;
 import com.example.androidtraining.Util.AsyncTaskUtil;
 import com.example.androidtraining.Util.DataUtil;
+import com.example.androidtraining.Util.PdDisplayUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,10 +29,12 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "aaa";
-    @Bind(R.id.login_account)  EditText login_account;
-    @Bind(R.id.login_password) EditText login_password;
+    @Bind(R.id.login_account)   EditText login_account;
+    @Bind(R.id.login_password)  EditText login_password;
+    @Bind(R.id.iv_showPassword) ImageView iv_showPassword;
     private AsyncTaskUtil loginAsyncTask;
     private DataUtil dataUtil = new DataUtil();
+    private Boolean showPassword = true;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             login_account.setText(user);
         }
     }
-    @OnClick({R.id.comeback_register,R.id.login})
+    @OnClick({R.id.comeback_register,R.id.login,R.id.iv_showPassword})
     public void onViewClicked(View view){
         switch (view.getId()){
             case R.id.login:
@@ -57,6 +63,10 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case R.id.comeback_register:
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                break;
+            case R.id.iv_showPassword:
+                PdDisplayUtil.passwordDisplay(showPassword,login_password,iv_showPassword);
+                showPassword = !showPassword;
                 break;
         }
     }

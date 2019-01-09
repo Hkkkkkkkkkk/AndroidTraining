@@ -15,109 +15,66 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.androidtraining.Adapter.ChatAdapter;
+import com.example.androidtraining.Beans.ChatBeans;
+import com.example.androidtraining.Beans.DataBeans;
 import com.example.androidtraining.MainActivity;
 import com.example.androidtraining.R;
+import com.example.androidtraining.Util.AsyncTaskUtil;
+
+import java.util.List;
+
+import javax.security.auth.callback.Callback;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class Fragment_first extends Fragment {
-    private ListView listView;
-    private EditText ed_chat;
-    private Button btn_sub;
-    private String [] names ={"a","b","c","d","e","f","g","h","i","j"};
-    private int [] icons = {R.drawable.me_one,R.drawable.me_one,R.drawable.me_one,R.drawable.me_one,R.drawable.me_one,R.drawable.me_one,R.drawable.me_one,R.drawable.me_one,R.drawable.me_one,R.drawable.me_one,R.drawable.me_one};
-    private String[] a;
-    private String name;
-    private String inputText;
-
+    @Bind(R.id.chat_list) ListView listView;
+    @Bind(R.id.ed_chat)   EditText ed_chat;
+    @Bind(R.id.btn_sub)   Button btn_sub;
+    private String[] chatdata;
+    private AsyncTaskUtil chatAsyncTaskUtil;
+    private ChatAdapter chatAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first,container,false);
-        initView(view);
-        MBaseAdapter mBaseAdapter = new MBaseAdapter();
-        listView.setAdapter(mBaseAdapter);
+        ButterKnife.bind(this,view);
         return view;
 
     }
 
-    private void initView(View view) {
-        listView = view.findViewById(R.id.list);
-        ed_chat = view.findViewById(R.id.ed_chat);
-        btn_sub = view.findViewById(R.id.btn_sub);
-        btn_sub.setOnClickListener(new ButtonListent());
-    }
+    @OnClick ({R.id.btn_sub})
+    public void onViewClicked(View view){
+        switch (view.getId()){
+            case R.id.btn_sub:
+                chatAsyncTaskUtil = new AsyncTaskUtil(ed_chat.getText().toString());
+                chatAsyncTaskUtil.AsyncTaskBeans(getContext(), new AsyncTaskUtil.DataCallback() {
+                    @Override
+                    public void onSuccess(DataBeans dataBeans) {
+                        chatAdapter = new ChatAdapter(getContext(),dataBeans.getChatBeans(),chatdata[0]);
+                        chatAdapter.CheckData(dataBeans.getChatBeans());
+                        listView.setAdapter(chatAdapter);
 
-    class ButtonListent implements View.OnClickListener{
+                    }
 
-        @Override
-        public void onClick(View v) {
-            inputText = ed_chat.getText().toString();
+                    @Override
+                    public void onFailed(Exception ex) {
+
+                    }
+                },chatdata[1]);
+                break;
         }
     }
-    class MBaseAdapter extends BaseAdapter{
 
-        @Override
-        public int getCount() {
-            return names.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return names[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if(==name){
-                if (convertView ==null) {
-                    convertView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_first_xx,parent,false);
-                    holder = new ViewHolder();
-                    holder.textView = convertView.findViewById(R.id.tv_name);
-                    holder.imageView = convertView.findViewById(R.id.iv_icon);
-                    holder.textView1 = convertView.findViewById(R.id.tv_chat);
-                }else{
-                    holder = (ViewHolder) convertView.getTag();
-                }
-                    holder.imageView.setImageResource(icons[position]);
-                    holder.textView.setText(names[position]);
-                    holder.textView1.setText(inputText);
-                return convertView;
-            }else{
-                if (convertView ==null) {
-                    convertView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_first_zz, parent, false);
-                    holder = new ViewHolder();
-                    holder.textView = convertView.findViewById(R.id.tv_name);
-                    holder.imageView = convertView.findViewById(R.id.iv_icon);
-                    holder.textView1 = convertView.findViewById(R.id.tv_chat);
-                }else{
-                    holder = (ViewHolder) convertView.getTag();
-                }
-                holder.imageView.setImageResource(icons[position]);
-                holder.textView.setText(names[position]);
-                holder.textView1.setText("");
-
-                return convertView;
-            }
-
-            return null;
-        }
-    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        a = ((MainActivity) context).getName();
-        name = a[0];
-    }
-    class ViewHolder{
-        TextView textView,textView1;
-        ImageView imageView;
+        chatdata = ((MainActivity) context).getName();
     }
 }

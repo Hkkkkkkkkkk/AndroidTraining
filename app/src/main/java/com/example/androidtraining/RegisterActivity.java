@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.androidtraining.Beans.DataBeans;
 import com.example.androidtraining.Util.AsyncTaskUtil;
+import com.example.androidtraining.Util.PdDisplayUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,10 +22,14 @@ import butterknife.OnClick;
  */
 
 public class RegisterActivity extends AppCompatActivity{
-    @Bind(R.id.edit_username) EditText edit_username;
-    @Bind(R.id.edit_account)  EditText edit_account;
-    @Bind(R.id.edit_password) EditText edit_password;
-    @Bind(R.id.Cfmpassword)   EditText cfmpassword;
+    @Bind(R.id.edit_username)    EditText edit_username;
+    @Bind(R.id.edit_account)     EditText edit_account;
+    @Bind(R.id.edit_password)    EditText edit_password;
+    @Bind(R.id.Cfmpassword)      EditText cfmpassword;
+    @Bind(R.id.et_showPassword)  ImageView et_showPassword;
+    @Bind(R.id.cfm_showPassword) ImageView cfm_showPassword;
+    private Boolean showPassword = true;
+    private Boolean cfmshowPassword = true;
     private AsyncTaskUtil registerAsyncTask;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity{
         setContentView(R.layout.register);
         ButterKnife.bind(this);
     }
-    @OnClick({R.id.register,R.id.comeback_login})
+    @OnClick({R.id.register,R.id.comeback_login,R.id.cfm_showPassword,R.id.et_showPassword})
     public void onViewClicked(View view){
         switch (view.getId()){
             case R.id.register:
@@ -39,6 +45,14 @@ public class RegisterActivity extends AppCompatActivity{
                 break;
             case R.id.comeback_login:
                 startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                break;
+            case  R.id.cfm_showPassword:
+                PdDisplayUtil.passwordDisplay(cfmshowPassword,cfmpassword,cfm_showPassword);
+                cfmshowPassword = !cfmshowPassword;
+                break;
+            case R.id.et_showPassword:
+                PdDisplayUtil.passwordDisplay(showPassword,edit_password,et_showPassword);
+                showPassword = !showPassword;
                 break;
         }
 

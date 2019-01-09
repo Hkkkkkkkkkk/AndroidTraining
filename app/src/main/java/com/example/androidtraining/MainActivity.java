@@ -53,18 +53,16 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.fragment_buju,fragment_second)
                 .add(R.id.fragment_buju,fragment_third)
                 .add(R.id.fragment_buju,fragment_first)
-                .commit();
-        MainActivity.this.getSupportFragmentManager()
-                .beginTransaction()
-                .show(fragment_first)
-                .hide(fragment_second)
+                .show(fragment_second)
+                .hide(fragment_first)
                 .hide(fragment_third)
                 .commit();
-        first_text.setTextColor(getResources().getColor(R.color.green));
-        first_image.setImageResource(R.drawable.chat_two);
-        second_text.setTextColor(getResources().getColor(R.color.gray));
-        second_image.setImageResource(R.drawable.contacts_one);
+
+        first_text.setTextColor(getResources().getColor(R.color.gray));
+        second_text.setTextColor(getResources().getColor(R.color.green));
         third_text.setTextColor(getResources().getColor(R.color.gray));
+        first_image.setImageResource(R.drawable.chat_one);
+        second_image.setImageResource(R.drawable.contacts_two);
         third_image.setImageResource(R.drawable.me_one);
     }
 
