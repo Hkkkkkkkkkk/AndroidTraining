@@ -60,14 +60,12 @@ public class Fragment_first extends Fragment {
                         chatAdapter = new ChatAdapter(getContext(),dataBeans.getChatBeans(),chatdata[0]);
                         chatAdapter.CheckData(dataBeans.getChatBeans());
                         listView.setAdapter(chatAdapter);
-
                     }
-
                     @Override
                     public void onFailed(Exception ex) {
-
                     }
                 },chatdata[1]);
+                ed_chat.setText("");
                 break;
         }
     }

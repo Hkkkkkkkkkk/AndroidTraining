@@ -63,6 +63,8 @@ public class ChatAdapter extends BaseAdapter{
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.chat.setMaxWidth(700);
+        viewHolder.chat.setMaxHeight(1000);
         viewHolder.chat.setText(chatBeansList.get(position).getChat());
         viewHolder.name.setText(chatBeansList.get(position).getName());
         return convertView;

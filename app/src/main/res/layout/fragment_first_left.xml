@@ -7,12 +7,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="#e1e1e1">
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/me_one"/>
+            android:background="@drawable/me_one"
+            android:layout_marginTop="2dp"
+            />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,12 +24,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ssss"/>
-            <TextView
-                android:id="@+id/chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ssss"
-                android:textSize="30dp"/>
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/arrow_left"
+                   />
+               <TextView
+                   android:id="@+id/chat"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="ssss"
+                   android:textSize="20dp"
+                   android:padding="2dp"
+                   android:background="@drawable/chat_box_left"/>
+
+           </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
