@@ -53,6 +53,9 @@ public class Fragment_first extends Fragment {
     public void onViewClicked(View view){
         switch (view.getId()){
             case R.id.btn_sub:
+                if(ed_chat.getText().toString().equals("")){
+                    Toast.makeText(getContext(),"发送内容不能为空！",Toast.LENGTH_SHORT).show();
+                }else {
                 chatAsyncTaskUtil = new AsyncTaskUtil(ed_chat.getText().toString());
                 chatAsyncTaskUtil.AsyncTaskBeans(getContext(), new AsyncTaskUtil.DataCallback() {
                     @Override
@@ -66,6 +69,7 @@ public class Fragment_first extends Fragment {
                     }
                 },chatdata[1]);
                 ed_chat.setText("");
+                }
                 break;
         }
     }
