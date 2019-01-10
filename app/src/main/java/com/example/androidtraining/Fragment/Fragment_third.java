@@ -16,7 +16,7 @@ import com.example.androidtraining.R;
 
 
 public class Fragment_third extends Fragment {
-    private TextView tv_name,tv_user;
+    private TextView tv_name;
     private String [] a ;
     @Nullable
     @Override
@@ -24,13 +24,11 @@ public class Fragment_third extends Fragment {
         View view = inflater.inflate(R.layout.fragment_third,container,false);
         initview(view);
         tv_name.setText(a[0]);
-        tv_user.setText(a[1]);
         return view;
     }
 
     private void initview(View view) {
         tv_name = view.findViewById(R.id.tv_name);
-        tv_user = view.findViewById(R.id.tv_user);
     }
 
     @Override

@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e1e1e1">
+        android:background="#FFF2F2F2">
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="50dp"
@@ -23,7 +23,8 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ssss"/>
+                android:text="ssss"
+                android:textColor="#a1a1a1"/>
            <LinearLayout
                android:layout_width="wrap_content"
                android:layout_height="wrap_content">
@@ -38,7 +39,7 @@
                    android:layout_height="wrap_content"
                    android:text="ssss"
                    android:textSize="20dp"
-                   android:padding="2dp"
+                   android:padding="6dp"
                    android:background="@drawable/chat_box_left"/>
 
            </LinearLayout>
