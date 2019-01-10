@@ -19,9 +19,11 @@ import java.util.List;
 public class UserAdapter extends BaseAdapter{
     private List<UserBeans> userBeansList;
     private LayoutInflater inflater;
+
     public UserAdapter(Context context,List<UserBeans> userBeans){
         this.userBeansList = userBeans;
         this.inflater = LayoutInflater.from(context.getApplicationContext());
+
     }
 
     @Override
@@ -42,18 +44,23 @@ public class UserAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder ;
-        if(convertView==null){
-            viewHolder =new ViewHolder();
-            convertView = inflater.inflate(R.layout.fragment_second_zz,parent,false);
-            viewHolder.textView = convertView.findViewById(R.id.tv_name);
-            convertView.setTag(viewHolder);
-        }else {
-           viewHolder = (ViewHolder) convertView.getTag();
+
+
+            if(convertView==null){
+                viewHolder =new ViewHolder();
+                convertView = inflater.inflate(R.layout.fragment_second_zz,parent,false);
+                viewHolder.textView = convertView.findViewById(R.id.tv_name);
+                convertView.setTag(viewHolder);
+            }else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            viewHolder.textView.setText(userBeansList.get(position).getName());
+            return convertView;
         }
-        viewHolder.textView.setText(userBeansList.get(position).getName());
-        return convertView;
+
+
     }
     class ViewHolder{
         TextView textView;
     }
-}
+

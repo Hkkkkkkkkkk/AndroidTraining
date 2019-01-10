@@ -10,9 +10,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.androidtraining.DBHelper.NoteDAOService;
+import com.example.androidtraining.DBHelper.NoteDAOServiceImpl;
+import com.example.androidtraining.Dao.TypeDao;
+import com.example.androidtraining.Dao.UserDao;
 import com.example.androidtraining.Fragment.Fragment_first;
 import com.example.androidtraining.Fragment.Fragment_second;
 import com.example.androidtraining.Fragment.Fragment_third;
+
+import java.lang.reflect.Type;
+import java.sql.SQLException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView first_text,second_text,third_text;
     private String name;
     private String user;
-    private String[] a;
+    private String[] userdata;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
         setListent();
     }
     public String[] getName() {
-        return a;
+        return userdata;
     }
     private void initTransmit() {
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         user = intent.getStringExtra("user");
-        a = new String[]{name,user};
+        userdata = new String[]{name,user};
 
     }
 

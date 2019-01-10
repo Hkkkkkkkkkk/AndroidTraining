@@ -1,5 +1,7 @@
 package com.example.androidtraining.Beans;
 
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by 黄铿 on 2019/1/7.
  */
@@ -7,7 +9,6 @@ package com.example.androidtraining.Beans;
 public class UserBeans {
    private String name;
    private String user;
-
     public String getName() {
         return name;
     }
