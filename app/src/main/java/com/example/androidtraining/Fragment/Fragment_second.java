@@ -54,11 +54,24 @@ public class Fragment_second extends Fragment {
         View view = inflater.inflate(R.layout.fragment_second,container,false);
         ButterKnife.bind(this,view);
         userAsyncTask = new AsyncTaskUtil();
-        userAsyncTask.AsyncTaskBeans(getContext(), new AsyncTaskUtil.DataCallback() {
+        userAsyncTask.AsyncTaskBeans(getActivity(),getContext(), new AsyncTaskUtil.DataCallback() {
             @Override
             public void onSuccess(DataBeans dataBeans) {
-                ViewAdapter =new MyExtendableListViewAdapter(getContext(),dataDao(dataBeans));
-                expandableListView.setAdapter(ViewAdapter);
+                try {
+                    NoteDAOService<UserDao,Integer> service = new NoteDAOServiceImpl<>(getContext(),UserDao.class);
+                    List<TypeDao> typeDaoList =new ArrayList<>();
+                    chatDao = new TypeDao(1,"群聊联系人");
+                    chatDao.setUserDaoList(service.Vague(1));
+                    typeDaoList.add(chatDao);
+                    phoneDao =new TypeDao(2,"手机联系人");
+                    phoneDao.setUserDaoList(service.Vague(2));
+                    typeDaoList.add(phoneDao);
+                    ViewAdapter =new MyExtendableListViewAdapter(getContext(),typeDaoList);
+                    expandableListView.setAdapter(ViewAdapter);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
@@ -75,52 +88,7 @@ public class Fragment_second extends Fragment {
         return view;
 
     }
-    private List<TypeDao> dataDao(DataBeans dataBeans){
-        List<TypeDao> typeDaoList = null;
-         NoteDAOService<UserDao,Integer> service = new NoteDAOServiceImpl<>(getContext(),UserDao.class);
-        try {
-            List<UserDao> userDaos = service.queryAll();
-            if (dataBeans.getUserBeans().size()!=userDaos.size()) {
-                for (UserDao userDao:userDaos){
-                    service.delete(userDao);
-                }
-                for (UserBeans userBeans :dataBeans.getUserBeans()){
-                    userDao =new UserDao();
-                    userDao.setName(userBeans.getName());
-                    userDao.setTid(1);
-                    service.create(userDao);
-                }
 
-            }
-            phoneData(service);
-            typeDaoList =new ArrayList<>();
-            chatDao = new TypeDao(1,"群聊联系人");
-            chatDao.setUserDaoList(service.Vague(1));
-            typeDaoList.add(chatDao);
-            phoneDao =new TypeDao(2,"手机联系人");
-            phoneDao.setUserDaoList(service.Vague(2));
-            typeDaoList.add(phoneDao);
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return typeDaoList;
-    }
-    private void phoneData ( NoteDAOService<UserDao,Integer> service) throws SQLException {
-        UserDao userDao;
-        MangerPower.Power(getActivity());
-        ContentResolver contentResolver = getContext().getContentResolver();
-        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null);
-        assert cursor != null;
-        while(cursor.moveToNext()){
-            String name= cursor.getString(cursor.getColumnIndex("display_name"));
-            userDao = new UserDao();
-            userDao.setName(name);
-            userDao.setTid(2);
-            service.create(userDao);
-        }
-        cursor.close();
-    }
 
 }
 

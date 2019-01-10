@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this,"帐号或密码不能为空哦！",Toast.LENGTH_LONG).show();
         }else {
             loginAsyncTask = new AsyncTaskUtil(account,password);
-            loginAsyncTask.AsyncTaskBeans(this, new AsyncTaskUtil.DataCallback() {
+            loginAsyncTask.AsyncTaskBeans(this,this, new AsyncTaskUtil.DataCallback() {
                 @Override
                 public void onSuccess(DataBeans dataBeans) {
                     LoginBeans loginBeans = dataBeans.getLoginBeans();

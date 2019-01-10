@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity{
 
         }else {
             registerAsyncTask = new AsyncTaskUtil(username,account,password);
-            registerAsyncTask.AsyncTaskBeans(this, new AsyncTaskUtil.DataCallback() {
+            registerAsyncTask.AsyncTaskBeans(this,this, new AsyncTaskUtil.DataCallback() {
                 @Override
                 public void onSuccess(DataBeans dataBeans) {
                     String status = dataBeans.getStatus();

@@ -52,21 +52,23 @@ public class ChatAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
+        if(!name.equals(chatBeansList.get(position).getName())) {
             convertView = inflater.inflate(name.equals(chatBeansList.get(position).getName()) ? R.layout.fragment_first_right : R.layout.fragment_first_left, parent, false);
-            viewHolder =new ViewHolder(convertView);
-
-        }else if(!name.equals(chatBeansList.get(position).getName())){
-            convertView = inflater.inflate(name.equals(chatBeansList.get(position).getName()) ? R.layout.fragment_first_right : R.layout.fragment_first_left, parent, false);
-            viewHolder =new ViewHolder(convertView);
+            ViewHolder viewHolder = new ViewHolder(convertView);
+            viewHolder.chat.setMaxWidth(700);
+            viewHolder.chat.setMaxHeight(1000);
+            viewHolder.chat.setText(chatBeansList.get(position).getChat());
+            viewHolder.name.setText(chatBeansList.get(position).getName());
         }else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        viewHolder.chat.setMaxWidth(700);
-        viewHolder.chat.setMaxHeight(1000);
-        viewHolder.chat.setText(chatBeansList.get(position).getChat());
-        viewHolder.name.setText(chatBeansList.get(position).getName());
+            convertView = inflater.inflate(name.equals(chatBeansList.get(position).getName()) ? R.layout.fragment_first_right : R.layout.fragment_first_left, parent, false);
+            ViewHolder viewHolder =new ViewHolder(convertView);
+            viewHolder.chat.setMaxWidth(700);
+            viewHolder.chat.setMaxHeight(1000);
+            viewHolder.chat.setText(chatBeansList.get(position).getChat());
+            viewHolder.name.setText(chatBeansList.get(position).getName());
+            }
+
+
         return convertView;
     }
      class ViewHolder{
@@ -76,7 +78,7 @@ public class ChatAdapter extends BaseAdapter{
              chat = convertView.findViewById(R.id.chat);
              name = convertView.findViewById(R.id.name);
              //可能为空
-             convertView.setTag(this);
+
          }
 
      }

@@ -57,7 +57,7 @@ public class Fragment_first extends Fragment {
                     Toast.makeText(getContext(),"发送内容不能为空！",Toast.LENGTH_SHORT).show();
                 }else {
                 chatAsyncTaskUtil = new AsyncTaskUtil(ed_chat.getText().toString());
-                chatAsyncTaskUtil.AsyncTaskBeans(getContext(), new AsyncTaskUtil.DataCallback() {
+                chatAsyncTaskUtil.AsyncTaskBeans(getActivity(),getContext(), new AsyncTaskUtil.DataCallback() {
                     @Override
                     public void onSuccess(DataBeans dataBeans) {
                         chatAdapter = new ChatAdapter(getContext(),dataBeans.getChatBeans(),chatdata[0]);

@@ -15,6 +15,14 @@ public class UserDao {
     @DatabaseField
     private int tid;
 
+    public UserDao(String name, int tid) {
+        this.name = name;
+        this.tid = tid;
+    }
+
+    public UserDao() {
+    }
+
     public int getId() {
         return id;
     }
