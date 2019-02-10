@@ -2,6 +2,7 @@ package com.example.androidtraining.DBHelper;
 
 import android.content.Context;
 
+import com.example.androidtraining.Dao.UserDao;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.DatabaseConnection;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * Created by 黄铿 on 2019/1/9.
@@ -34,20 +36,35 @@ public class NoteDAOServiceImpl<T,Z> implements NoteDAOService<T,Z> {
         return dao;
     }
     @Override
-    public int create(T t) throws SQLException {
-        Dao<T,Z> dao = getDao();
+    public int createAll(final List<T> userDaos) throws SQLException {
+        final Dao<T,Z> dao =getDao();
         DatabaseConnection connection = null;
         try {
             //开启数据库事物
             connection = dao.startThreadConnection();
             //设置为手动提交
+
             dao.setAutoCommit(connection,false);
+            try {
+                dao.callBatchTasks(new Callable<Object>() {
+                    @Override
+                    public Object call() throws Exception {
+                        for (T article : userDaos) {
+                            dao.create(article);
+                        }
+
+                        return null;
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             //向表中添加一条数据
-            int save = dao.create(t);
+
             //提交数据
             dao.commit(connection);
             //关闭提交
-            return save;
+
         }catch (SQLException e){
             //添加错误，回滚数据库
             dao.rollBack(connection);
@@ -59,16 +76,30 @@ public class NoteDAOServiceImpl<T,Z> implements NoteDAOService<T,Z> {
         return 0;
     }
 
+
     @Override
-    public int delete(T t) throws SQLException {
-        Dao<T,Z> dao = getDao();
+    public int deleteAll(final List<T> t) throws SQLException {
+        final Dao<T,Z> dao = getDao();
         DatabaseConnection connection = null;
         try {
             connection = dao.startThreadConnection();
             dao.setAutoCommit(connection,false);
-            int save = dao.delete(t);
+            try {
+                dao.callBatchTasks(new Callable<Object>() {
+                    @Override
+                    public Object call() throws Exception {
+                        for (T article : t) {
+                            dao.delete(article);
+                        }
+
+                        return null;
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             dao.commit(connection);
-            return save;
+
         }catch (SQLException e){
             dao.rollBack(connection);
             e.printStackTrace();

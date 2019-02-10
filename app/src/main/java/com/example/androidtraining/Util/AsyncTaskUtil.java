@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,6 +57,8 @@ public class AsyncTaskUtil {
          @SuppressLint("StaticFieldLeak")
          AsyncTask<Void, Void, DataBeans> voidVoidDataBeansAsyncTask = new AsyncTask<Void, Void, DataBeans>() {
              Exception exception;
+
+
              @Override
              protected DataBeans doInBackground(Void... voids) {
                  try {
@@ -106,14 +109,15 @@ public class AsyncTaskUtil {
         try {
             List<UserDao> userdata= service.Vague(1);
             List<UserDao> userDaos =service.queryAll();
+            List<UserDao> userDaoList =new ArrayList<>();
+
             if (dataBeans.getUserBeans().size()!=userdata.size()) {
-                for (UserDao userDao:userDaos){
-                    service.delete(userDao);
-                }
+                    service.deleteAll(userDaos);
                 for (UserBeans userBeans :dataBeans.getUserBeans()){
                     UserDao  userDao =new UserDao(userBeans.getName(),1);
-                    service.create(userDao);
+                    userDaoList.add(userDao);
                 }
+                service.createAll(userDaoList);
                 phoneData(activity,context,service);
             }
 
@@ -130,11 +134,13 @@ public class AsyncTaskUtil {
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null);
         assert cursor != null;
+        List<UserDao> userDaoList = new ArrayList<>();
         while(cursor.moveToNext()){
             String name= cursor.getString(cursor.getColumnIndex("display_name"));
             userDao = new UserDao(name,2);
-            service.create(userDao);
+            userDaoList.add(userDao);
         }
+        service.createAll(userDaoList);
         cursor.close();
     }
     public interface DataCallback{
